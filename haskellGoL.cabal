@@ -59,6 +59,7 @@ executable haskellGoL
 
     -- Modules included in this executable, other than Main.
     other-modules:
+        GameLogic.BoardClass
         GameLogic.Board
         GameLogic.Cell
 

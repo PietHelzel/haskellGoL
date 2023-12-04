@@ -1,5 +1,10 @@
 module Main where
 
+import GameLogic.Board (Board(Board), update, newBoard)
+import GameLogic.Cell (Cell(..))
+
 main :: IO ()
-main = do 
-    putStrLn "Hello, Haskell!"
+main = do
+    let b = Board []
+    let c = Cell {x=2, y=2}
+    putStrLn "Abc"

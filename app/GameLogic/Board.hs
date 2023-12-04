@@ -1,14 +1,15 @@
-module GameLogic.GameLogic where
+module GameLogic.Board where
 
 import GameLogic.Cell
+import GameLogic.BoardClass
 
-class BoardClass a where
-    updateBoard :: a -> a
+data Board = Board [Cell]
 
-newtype Board = Board [Cell]
+update :: Board -> RuleSet -> Board
+update board rules = board
 
-update :: Board -> Board
-update board = board
+newBoard :: Board
+newBoard = Board []
 
 instance BoardClass Board where
     updateBoard = update
