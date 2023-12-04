@@ -1,18 +1,21 @@
 module GameLogic.Board where
 
+import Data.Set
+
 import GameLogic.Cell
 import GameLogic.BoardClass
 
-data Board = Board [Cell]
+data Board = Board [Cell] deriving Show
 
 update :: Board -> RuleSet -> Board
-update board@(Board cells) rules = Board [cell | cell <- cells, willExist board rules cell]
+update board rules = Board $ toList $ fromList [cell | cell <- cells, willExist board rules cell]
+    where cells = getAllImportantCells board
 
 willExist :: Board -> RuleSet -> Cell -> Bool
-willExist board@(Board cells) (RuleSet {death=death, birth=birth}) c
-    | neighbours `elem` death = False
+willExist board@(Board cells) (RuleSet {survive=survive, birth=birth}) c
     | neighbours `elem` birth = True
-    | otherwise = c `elem` cells
+    | neighbours `elem` survive = c `elem` cells
+    | otherwise = False
     where neighbours = countNeighbours board c
 
 countNeighbours :: Board -> Cell -> Integer
