@@ -1,14 +1,14 @@
 -- | This module provides a basic implementation of the Game of Life algorithm.
 -- It implements the 'BoardClass' class to be usable in a generic manner.
-module GameLogic.Board where
+module Board where
 
 import Data.Set
 
-import GameLogic.Cell
-import GameLogic.BoardClass
+import Cell
+import BoardClass
 
 -- | The board data type. It contains a list of 'Cell', representing the currently alive cells.
-data Board = Board [Cell] deriving Show
+data Board = Board [Cell] deriving (Show, Eq)
 
 -- | Updates the board using a ruleset.
 update :: Board -> RuleSet -> Board

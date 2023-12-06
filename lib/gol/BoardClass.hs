@@ -1,6 +1,6 @@
 -- | This modules contains a class to make boards more generic as well as
 -- a data type for a ruleset.
-module GameLogic.BoardClass where
+module BoardClass where
 
 -- | This class specifies a generic interface for a board.
 -- It allows the concrete board implementation to be replaced without other changes to the code.
