@@ -3,12 +3,13 @@
 module Board where
 
 import Data.List (nub)
+import Data.Set (fromList)
 
 import Cell
 import BoardClass
 
 -- | The board data type. It contains a list of 'Cell', representing the currently alive cells.
-data Board = Board [Cell] deriving (Show, Eq)
+data Board = Board [Cell] deriving (Show)
 
 -- | Updates the board using a ruleset.
 update :: Board -> RuleSet -> Board
@@ -48,5 +49,11 @@ getNeighbours c = [
         Cell {x=x c + 1, y = y c + 1}
     ]
 
+boardEquals :: Board -> Board -> Bool
+boardEquals (Board c1) (Board c2) = fromList c1 == fromList c2
+
 instance BoardClass Board where
     updateBoard = update
+
+instance Eq Board where
+    (==) = boardEquals
