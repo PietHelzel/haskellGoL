@@ -1,6 +1,6 @@
 module Main where
 
-import GameLogic.Board (Board(Board), update, newBoard)
+import GameLogic.Board (Board(Board), update)
 import GameLogic.Cell (Cell(..))
 
 main :: IO ()
