@@ -50,7 +50,7 @@ extra-doc-files:    CHANGELOG.md
 tests: True
 
 common warnings
-    ghc-options: -Wall
+    ghc-options: -Wall -Wno-name-shadowing
 
 executable haskellGoL
     -- Import common warning flags.
