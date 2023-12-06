@@ -2,7 +2,7 @@
 -- It implements the 'BoardClass' class to be usable in a generic manner.
 module Board where
 
-import Data.Set
+import Data.List (nub)
 
 import Cell
 import BoardClass
@@ -12,7 +12,7 @@ data Board = Board [Cell] deriving (Show, Eq)
 
 -- | Updates the board using a ruleset.
 update :: Board -> RuleSet -> Board
-update board rules = Board $ toList $ fromList [cell | cell <- cells, willExist board rules cell]
+update board rules = Board $ nub [cell | cell <- cells, willExist board rules cell]
     where cells = getAllImportantCells board
 
 -- | Checks if a cell will exist in the next generation.
