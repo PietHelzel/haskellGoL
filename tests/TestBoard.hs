@@ -4,7 +4,7 @@ import Test.HUnit
 import qualified System.Exit as Exit
 
 import Cell
-import Board
+import Board (Board(Board), update)
 import BoardClass (getDefaultRules)
 
 test2By2Square :: Test

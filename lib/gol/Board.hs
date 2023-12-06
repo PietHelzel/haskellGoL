@@ -1,6 +1,6 @@
 -- | This module provides a basic implementation of the Game of Life algorithm.
 -- It implements the 'BoardClass' class to be usable in a generic manner.
-module Board where
+module Board (Board(Board), update) where
 
 import Data.List (nub)
 import Data.Set (fromList)
@@ -49,6 +49,7 @@ getNeighbours c = [
         Cell {x=x c + 1, y = y c + 1}
     ]
 
+-- | Compares two 'Board' by converting the list of cells to a set, then comparing the sets.
 boardEquals :: Board -> Board -> Bool
 boardEquals (Board c1) (Board c2) = fromList c1 == fromList c2
 
