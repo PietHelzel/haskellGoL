@@ -1,6 +1,6 @@
 -- | This module provides a basic implementation of the Game of Life algorithm.
 -- It implements the 'BoardClass' class to be usable in a generic manner.
-module Board (Board(Board), update) where
+module Board (Board(Board)) where
 
 import Data.List (nub)
 import Data.Set (fromList)
@@ -12,8 +12,8 @@ import BoardClass
 data Board = Board [Cell] deriving (Show)
 
 -- | Updates the board using a ruleset.
-update :: Board -> RuleSet -> Board
-update board rules = Board $ nub [cell | cell <- cells, willExist board rules cell]
+updateBoard :: Board -> RuleSet -> Board
+updateBoard board rules = Board $ nub [cell | cell <- cells, willExist board rules cell]
     where cells = getAllImportantCells board
 
 -- | Checks if a cell will exist in the next generation.
@@ -49,12 +49,17 @@ getNeighbours c = [
         Cell {x=x c + 1, y = y c + 1}
     ]
 
+-- | Simply returns all alive cells.
+getBoardCells :: Board -> [Cell]
+getBoardCells (Board cells) = cells
+
 -- | Compares two 'Board' by converting the list of cells to a set, then comparing the sets.
 boardEquals :: Board -> Board -> Bool
 boardEquals (Board c1) (Board c2) = fromList c1 == fromList c2
 
 instance BoardClass Board where
-    updateBoard = update
+    update = updateBoard
+    getCells = getBoardCells
 
 instance Eq Board where
     (==) = boardEquals
