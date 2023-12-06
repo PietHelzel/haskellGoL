@@ -4,8 +4,8 @@ import Test.HUnit
 import qualified System.Exit as Exit
 
 import Cell
-import Board (Board(Board), update)
-import BoardClass (getDefaultRules)
+import Board (Board(Board))
+import BoardClass (getDefaultRules, getCells, update)
 
 test2By2Square :: Test
 test2By2Square = do
@@ -37,10 +37,28 @@ testCreateCell = do
     let b2 = update b getDefaultRules
     TestCase (assertEqual "Cell at (2, 2) should be created after a generation" bCorrect b2)
 
+testGlider :: Test
+testGlider = do
+    let b = Board [
+            Cell {x = 0, y = 0},
+            Cell {x = 1, y = 0},
+            Cell {x = 2, y = 0},
+            Cell {x = 2, y = 1},
+            Cell {x = 1, y = 2}
+            ]
+    
+    let b2 = iterate (\x -> update x getDefaultRules) b !! 4
+
+    let bCorrect = Board $ map (moveCell 1 (-1)) (getCells b)
+
+    TestCase (assertEqual "Glider should have moved by 1 unit down-right" bCorrect b2)
+
+
 tests :: Test
 tests = TestList [
     TestLabel "2x2 constant Square" test2By2Square,
-    TestLabel "Create cell" testCreateCell
+    TestLabel "Create cell" testCreateCell,
+    TestLabel "Glider" testGlider
     ]
 
 main :: IO ()
