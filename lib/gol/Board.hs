@@ -35,19 +35,9 @@ countNeighbours (Board cells) c = sum [1 | n <- getNeighbours c, n `elem` cells]
 getAllImportantCells :: Board -> [Cell]
 getAllImportantCells (Board cells) = concat [cells, concat [getNeighbours c | c <- cells]]
 
--- TODO: Make shorter with list comprehension
 -- | Gets all neighbouring cells of a specific cell.
 getNeighbours :: Cell -> [Cell]
-getNeighbours c = [
-        Cell {x=x c - 1, y = y c - 1},
-        Cell {x=x c, y = y c - 1},
-        Cell {x=x c + 1, y = y c - 1},
-        Cell {x=x c - 1, y = y c},
-        Cell {x=x c + 1, y = y c},
-        Cell {x=x c - 1, y = y c + 1},
-        Cell {x=x c, y = y c + 1},
-        Cell {x=x c + 1, y = y c + 1}
-    ]
+getNeighbours c = [moveCell dx dy c | dx <- [-1..1], dy <- [-1..1], dx /= 0 || dy /= 0]
 
 -- | Simply returns all alive cells.
 getBoardCells :: Board -> [Cell]
