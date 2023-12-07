@@ -3,17 +3,19 @@
 module BoardClass where
 
 import Cell
+import Data.Set
 
 -- | This class specifies a generic interface for a board.
 -- It allows the concrete board implementation to be replaced without other changes to the code.
 class BoardClass a where
-    -- | updates the board using a RuleSet, returning a new board.
+    -- | Updates the board using a RuleSet, returning a new board.
     update :: a -> RuleSet -> a
-    getCells :: a -> [Cell]
+    -- | Gets a set of all living cells.
+    getCells :: a -> Set Cell
 
 -- | A RuleSet specifies the number of neighbours a cell needs to have in order
 -- to survive a generation (for a living cell) or to get born in the next one (for a dead cell).
-data RuleSet = RuleSet {survive::[Integer], birth::[Integer]}
+data RuleSet = RuleSet {survive::[Int], birth::[Int]}
 
 -- | This function returns the default ruleset used for the Game of Life.
 getDefaultRules :: RuleSet

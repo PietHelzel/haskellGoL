@@ -6,14 +6,16 @@ import Cell
 import Board (Board(Board))
 import BoardClass (getDefaultRules, getCells, update)
 
+import Data.Set (Set, fromList)
+
 -- iterate cannot be used for some reason here, it messes up benchmark times
 applyNTimes :: Int -> (a -> a) -> a -> a
 applyNTimes 0 _ x = x
 applyNTimes n f x = applyNTimes (n - 1) f (f x)
 
-benchFPentomino :: Int -> [Cell]
+benchFPentomino :: Int -> Set Cell
 benchFPentomino n = do
-    let b = Board [
+    let b = Board $ fromList [
             Cell {x = 0, y = 0},
             Cell {x = 0, y = 1},
             Cell {x = (-1), y = 1},

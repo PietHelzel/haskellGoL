@@ -81,20 +81,20 @@ library gol
         base ^>= 4.19.0.0,
         containers ^>= 0.6.8
     hs-source-dirs: lib/gol
-    exposed-modules: Board, BoardClass, Cell
+    exposed-modules: BoardClass, Cell, Board
     default-language: Haskell2010
 
 test-suite tests
     type: exitcode-stdio-1.0
     main-is: TestBoard.hs
-    build-depends: base ^>=4.19.0.0, HUnit ^>=1.6, gol
+    build-depends: base ^>=4.19.0.0, HUnit ^>=1.6, gol, containers ^>= 0.6.8
     hs-source-dirs: tests
     default-language: Haskell2010
 
 benchmark bench
     type: exitcode-stdio-1.0
     main-is: BenchBoard.hs
-    build-depends: base ^>= 4.19.0.0, tasty-bench ^>= 0.3.5, gol
+    build-depends: base ^>= 4.19.0.0, tasty-bench ^>= 0.3.5, gol, containers ^>= 0.6.8
     hs-source-dirs: bench
     default-language: Haskell2010
     ghc-options: -O2
