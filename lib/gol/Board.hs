@@ -41,6 +41,12 @@ getNeighbours c = fromList [moveCell dx dy c | dx <- [-1..1], dy <- [-1..1], dx 
 getBoardCells :: Board -> Set Cell
 getBoardCells (Board cells) = cells
 
+getBoardCellsRect :: Integer -> Integer -> Integer -> Integer -> Board -> Set Cell
+getBoardCellsRect x y width height board = DS.filter (
+        \c -> Cell.x c >= x && Cell.y c >= y && Cell.x c < x + width && Cell.y c < y + height
+    ) $ getBoardCells board
+
 instance BoardClass Board where
     update = updateBoard
     getCells = getBoardCells
+    getCellsRect = getBoardCellsRect

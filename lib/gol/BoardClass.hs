@@ -12,6 +12,15 @@ class BoardClass a where
     update :: a -> RuleSet -> a
     -- | Gets a set of all living cells.
     getCells :: a -> Set Cell
+    -- | Gets a set of living cells within a rectangle area.
+    -- This makes rendering possible while only getting necessary cells.
+    getCellsRect ::
+        Integer -- | The x coordinate of the bottom left corner.
+     -> Integer -- | The y coordinate of the bottom left corner.
+     -> Integer -- | The width of the region.
+     -> Integer -- | The height of the region.
+     -> a       -- | The board.
+     -> Set Cell
 
 -- | A RuleSet specifies the number of neighbours a cell needs to have in order
 -- to survive a generation (for a living cell) or to get born in the next one (for a dead cell).
