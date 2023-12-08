@@ -67,13 +67,20 @@ executable haskellGoL
     build-depends:
         base ^>=4.19.0.0,
         containers ^>= 0.6.8,
-        gol
+        gol,
+        ui,
+        brick ^>= 2.1.1,
+        vty ^>= 6.1,
+        vty-crossplatform ^>= 0.4.0,
+        mtl ^>= 2.3.1
 
     -- Directories containing source files.
     hs-source-dirs:   app
 
     -- Base language which the package is written in.
     default-language: Haskell2010
+
+    ghc-options: -threaded
 
 library gol
     import: warnings
@@ -82,6 +89,20 @@ library gol
         containers ^>= 0.6.8
     hs-source-dirs: lib/gol
     exposed-modules: BoardClass, Cell, Board
+    default-language: Haskell2010
+
+library ui
+    import: warnings
+    build-depends:
+        base ^>= 4.19.0.0,
+        gol,
+        brick ^>= 2.1.1,
+        mtl ^>= 2.3.1,
+        vty ^>= 6.1,
+        vty-crossplatform ^>= 0.4.0
+    hs-source-dirs: lib/ui,
+    exposed-modules: UI, AppState,
+    other-modules: UIController, UIRenderer,
     default-language: Haskell2010
 
 test-suite tests
