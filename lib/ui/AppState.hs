@@ -38,3 +38,20 @@ updateSize :: (BoardClass board) =>
  -> AppState board
 
 updateSize width height state = state {stateWidth=width, stateHeight=height}
+
+updatePosition :: (BoardClass board) =>
+    Integer -- | x coordinate
+ -> Integer -- | y coordinate
+ -> AppState board
+ -> AppState board
+
+updatePosition x y state = state {stateX=x, stateY=y}
+
+movePosition :: (BoardClass board) =>
+    Integer -- | delta x
+ -> Integer -- | delta y
+ -> AppState board
+ -> AppState board
+
+movePosition dx dy state@(AppState {stateX=x, stateY=y}) =
+    state {stateX=x + dx, stateY=y + dy}

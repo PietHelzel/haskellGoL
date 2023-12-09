@@ -21,8 +21,8 @@ main = do
                     Cell {x = 1, y = 2}
                 ],
             stateRuleset=getDefaultRules,
-            stateX = -50,
-            stateY = -50,
+            stateX = -10,
+            stateY = -10,
             stateWidth = 100,
             stateHeight = 50
             }

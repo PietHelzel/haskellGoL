@@ -18,9 +18,9 @@ renderBoard x y width height board = do
     let cells = getCellsRect x y width height board
     let s = [
             if Cell{x=x', y=y'} `member` cells then
-                '#'
+                '█'
             else
-                '.'
+                ' '
             | y' <- [y..y+height-1], x' <- [x..x+width-1]]
     intercalate "\n" $ chunksOf (fromInteger width) s
 
