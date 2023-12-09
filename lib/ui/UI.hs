@@ -1,7 +1,14 @@
-module UI where
+module UI (runApp) where
 
-import Brick (App(..), neverShowCursor)
-import Brick.BChan (BChan)
+import Brick (App(..), neverShowCursor, customMain)
+import Brick.BChan (BChan, writeBChan, newBChan)
+
+import Control.Monad (forever)
+import Control.Concurrent (forkIO, threadDelay)
+import Data.Functor (void)
+
+import Graphics.Vty
+import Graphics.Vty.CrossPlatform
 
 import AppState
 
@@ -9,12 +16,6 @@ import UIController
 import UIRenderer
 
 import BoardClass
-
-import Brick.BChan (writeBChan, newBChan)
-
-import Control.Monad (forever)
-import Control.Concurrent (forkIO, threadDelay)
-import Data.Functor (void)
 
 app :: BoardClass board => App (AppState board) CustomEvent ResourceName
 app = App {
@@ -24,6 +25,18 @@ app = App {
         appStartEvent = return (),
         appAttrMap = getAttrMap
     }
+
+runApp :: BoardClass board => AppState board -> IO (AppState board)
+runApp initialState = do
+    let builder = mkVty defaultConfig
+    initialVty <- builder
+    chan <- createTickChannel
+    customMain
+        initialVty
+        builder
+        (Just chan)
+        app
+        initialState
 
 createTickChannel :: IO (BChan CustomEvent)
 createTickChannel = do

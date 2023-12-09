@@ -1,4 +1,4 @@
-module BoardRenderer where
+module BoardRenderer (renderBoard) where
 
 import BoardClass (BoardClass, getCellsRect)
 import Cell
