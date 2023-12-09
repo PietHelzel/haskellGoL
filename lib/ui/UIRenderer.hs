@@ -10,9 +10,11 @@ import qualified Graphics.Vty as V
 
 import UIController (ResourceName)
 
+import BoardRenderer (renderBoard)
+
 drawUI :: BoardClass board => AppState board -> [Widget ResourceName]
-drawUI AppState {statePaused=statePaused} = [
-        str $ show statePaused
+drawUI AppState {stateBoard=board} = [
+        str $ renderBoard (-50) (-20) 100 40 board
     ]
 
 getAttrMap :: BoardClass board => AppState board -> AttrMap

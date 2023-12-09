@@ -14,7 +14,7 @@ type ResourceName = ()
 handleEvent :: BoardClass board => BrickEvent ResourceName CustomEvent -> EventM ResourceName (AppState board) ()
 handleEvent (AppEvent Tick) = do
     state <- get
-    let state' = togglePaused state
+    let state' = updateBoard state
     put state'
 
-handleEvent event = pure ()
+handleEvent event = return ()

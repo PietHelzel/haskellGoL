@@ -15,8 +15,8 @@ class BoardClass a where
     -- | Gets a set of living cells within a rectangle area.
     -- This makes rendering possible while only getting necessary cells.
     getCellsRect ::
-        Integer -- | The x coordinate of the bottom left corner.
-     -> Integer -- | The y coordinate of the bottom left corner.
+        Integer -- | The x coordinate of the top left corner.
+     -> Integer -- | The y coordinate of the top left corner.
      -> Integer -- | The width of the region.
      -> Integer -- | The height of the region.
      -> a       -- | The board.
