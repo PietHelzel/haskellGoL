@@ -20,4 +20,9 @@ main = do
                     Cell {x = 0, y = 2},
                     Cell {x = 1, y = 2}
                 ],
-            stateRuleset=getDefaultRules}
+            stateRuleset=getDefaultRules,
+            stateX = -50,
+            stateY = -50,
+            stateWidth = 100,
+            stateHeight = 50
+            }
