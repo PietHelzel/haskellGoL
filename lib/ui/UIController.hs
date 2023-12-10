@@ -15,27 +15,37 @@ import qualified Graphics.Vty as V
 data CustomEvent = Tick
 data ResourceName = GameViewport deriving (Eq, Ord)
 
+
 handleEvent :: BoardClass board => BrickEvent ResourceName CustomEvent -> EventM ResourceName (AppState board) ()
 handleEvent (AppEvent Tick) = do
     state <- get
-    let state' = updateBoard state
+    let paused = statePaused state
+        state' = if paused then state else updateBoard state
     put state'
 
 handleEvent (VtyEvent (V.EvKey V.KUp [])) = do
     state <- get
     let state' = movePosition 0 (-1) state
     put state'
+
 handleEvent (VtyEvent (V.EvKey V.KDown [])) = do
     state <- get
     let state' = movePosition 0 1 state
     put state'
+
 handleEvent (VtyEvent (V.EvKey V.KLeft [])) = do
     state <- get
     let state' = movePosition (-1) 0 state
     put state'
+
 handleEvent (VtyEvent (V.EvKey V.KRight [])) = do
     state <- get
     let state' = movePosition 1 0 state
+    put state'
+
+handleEvent (VtyEvent (V.EvKey (V.KChar ' ') [])) = do
+    state <- get
+    let state' = togglePaused state
     put state'
 
 handleEvent (VtyEvent (V.EvKey (V.KChar 'q') [])) = do

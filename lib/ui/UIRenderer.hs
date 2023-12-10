@@ -29,7 +29,10 @@ drawGameViewport AppState {stateBoard=board, stateX=x, stateY=y, stateWidth=widt
     reportExtent GameViewport $ border $ padRight Max $ padBottom Max $ str $ renderBoard x y width height board
 
 drawHelperWindow :: BoardClass board => AppState board -> Widget ResourceName
-drawHelperWindow _ = border $ hLimitPercent 15 $ strWrap "Help:\n- Use the arrow keys to move around the viewport.\n- Press q to quit."
+drawHelperWindow _ = border $ hLimitPercent 15 $ strWrap "Help:\n\
+\- Use the arrow keys to move around the viewport.\n\
+\- Press q to quit.\n\
+\- Press space to pause / unpause"
 
 getAttrMap :: BoardClass board => AppState board -> AttrMap
 getAttrMap _ = attrMap V.defAttr []
