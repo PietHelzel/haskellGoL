@@ -67,6 +67,7 @@ executable haskellGoL
     build-depends:
         base ^>=4.19.0.0,
         containers ^>= 0.6.8,
+        optparse-applicative ^>= 0.18.1.0,
         gol,
         ui
 
