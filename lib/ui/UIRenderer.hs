@@ -7,7 +7,7 @@ import AppState
 import Brick (Widget, str, strWrap, AttrMap, attrMap, AttrName, attrName)
 import Brick.Widgets.Border.Style (unicodeRounded)
 import Brick.Widgets.Border (border)
-import Brick.Widgets.Core (withBorderStyle, (<+>), reportExtent, Padding(Max), padBottom, padRight, hLimitPercent, vBox, hBox, withAttr)
+import Brick.Widgets.Core (withBorderStyle, (<+>), reportExtent, Padding(Max), padBottom, padRight, hLimitPercent, vBox, hBox, withAttr, clickable)
 import Data.List.Split (splitOn)
 import Brick.Util (fg)
 
@@ -29,14 +29,17 @@ drawGameViewport :: BoardClass board => AppState board -> Widget ResourceName
 drawGameViewport AppState {stateBoard=board, stateX=x, stateY=y, stateWidth=width, stateHeight=height} = do
     let rBoard = renderBoard x y width height board
     let lines = enumerate $ splitOn "\n" rBoard
-    reportExtent GameViewport $ border $ padRight Max $ padBottom Max $ vBox [
-            hBox [
-                if x' == width `div` 2 && y' == height `div` 2 then
-                    withAttr cursorAttr $ str [if c == '█' then '█' else '░']
-                else
-                    str [c]
-                | (x', c) <- enumerate line
-                ]
+    reportExtent GameViewport $ clickable GameViewport $ border $ padRight Max $ padBottom Max $ vBox [
+            if y' /= height `div` 2 then
+                str line
+            else
+                hBox [
+                    if x' == width `div` 2 && y' == height `div` 2 then
+                        withAttr cursorAttr $ str [if c == '█' then '█' else '░']
+                    else
+                        str [c]
+                    | (x', c) <- enumerate line
+                    ]
             | (y', line) <- lines
         ]
 
