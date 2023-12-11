@@ -7,7 +7,7 @@ import AppState
 import Brick (Widget, str, strWrap, AttrMap, attrMap, AttrName, attrName)
 import Brick.Widgets.Border.Style (unicodeRounded)
 import Brick.Widgets.Border (border)
-import Brick.Widgets.Core (withBorderStyle, (<+>), reportExtent, Padding(Max), padBottom, padRight, hLimitPercent, vBox, hBox, withAttr, clickable)
+import Brick.Widgets.Core (withBorderStyle, (<+>), (<=>), reportExtent, Padding(Max), padBottom, padRight, hLimitPercent, vBox, hBox, withAttr, clickable)
 import Data.List.Split (splitOn)
 import Brick.Util (fg)
 
@@ -22,7 +22,7 @@ drawUI state =
     [
         withBorderStyle unicodeRounded $ (<+>)
         (drawGameViewport state)
-        (drawHelperWindow state)
+        (hLimitPercent 15 $ (<=>) (drawHelperWindow state) (drawStatsWindow state))
     ]
 
 drawGameViewport :: BoardClass board => AppState board -> Widget ResourceName
@@ -51,12 +51,18 @@ enumerateHelper _ [] = []
 enumerateHelper n (x:xs) = (n, x) : enumerateHelper (n + 1) xs
 
 drawHelperWindow :: BoardClass board => AppState board -> Widget ResourceName
-drawHelperWindow _ = border $ hLimitPercent 15 $ strWrap "\
+drawHelperWindow _ = border $ strWrap "\
 \Help:\n\
 \- Use the arrow keys to move around the viewport.\n\
 \- Press q to quit.\n\
 \- Press space to pause / unpause\n\
-\- Press t to toggle a cell"
+\- Press t to toggle a cell\n\
+\- Press +/- to increase/decrease simulation speed"
+
+drawStatsWindow :: BoardClass board => AppState board -> Widget ResourceName
+drawStatsWindow state = do
+    let speed = 10 - stateTicksBetweenUpdates state
+    border $ strWrap ("Information:\n- Speed: " ++ (show speed))
 
 
 cursorAttr :: AttrName

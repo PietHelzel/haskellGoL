@@ -11,7 +11,9 @@ data (BoardClass board) => AppState board = AppState {
         stateX :: Integer,
         stateY :: Integer,
         stateWidth :: Integer,
-        stateHeight :: Integer
+        stateHeight :: Integer,
+        stateTicksBetweenUpdates :: Integer,
+        stateTicks :: Integer
     }
 
 togglePaused :: (BoardClass board) => AppState board -> AppState board
@@ -65,3 +67,20 @@ toggleCell cell state@(AppState {stateBoard=board}) = do
         state {stateBoard=setCells board $ delete cell cells}
     else
         state {stateBoard=setCells board $ insert cell cells}
+
+increaseSpeed :: (BoardClass board) => AppState board -> AppState board
+increaseSpeed state@(AppState {stateTicksBetweenUpdates=ticksBetweenUpdates}) =
+    if ticksBetweenUpdates > 1 then
+        state {stateTicksBetweenUpdates=ticksBetweenUpdates - 1}
+    else
+        state
+
+decreaseSpeed :: (BoardClass board) => AppState board -> AppState board
+decreaseSpeed state@(AppState {stateTicksBetweenUpdates=ticksBetweenUpdates}) =
+    if ticksBetweenUpdates < 10 then
+        state {stateTicksBetweenUpdates=ticksBetweenUpdates + 1}
+    else
+        state
+
+increaseTicks :: (BoardClass board) => AppState board -> AppState board
+increaseTicks state@(AppState {stateTicks=ticks}) = state {stateTicks = ticks + 1}

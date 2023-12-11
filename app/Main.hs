@@ -24,5 +24,7 @@ main = do
             stateX = -10,
             stateY = -10,
             stateWidth = 100,
-            stateHeight = 50
+            stateHeight = 50,
+            stateTicksBetweenUpdates = 5,
+            stateTicks = 0
             }

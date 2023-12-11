@@ -21,9 +21,14 @@ data ResourceName = GameViewport deriving (Eq, Ord)
 handleEvent :: BoardClass board => BrickEvent ResourceName CustomEvent -> EventM ResourceName (AppState board) ()
 handleEvent (AppEvent Tick) = do
     state <- get
-    let paused = statePaused state
-        state' = if paused then state else updateBoard state
-    put state'
+    let ticks = stateTicks state
+    let ticksBetweenUpdates = stateTicksBetweenUpdates state
+    if ticks `mod` ticksBetweenUpdates == 0 then do
+        let paused = statePaused state
+        let state' = if paused then state else updateBoard state
+        put $ increaseTicks state'
+    else
+        put $ increaseTicks state
 
 handleEvent (VtyEvent (V.EvKey V.KUp [])) = do
     state <- get
@@ -59,6 +64,16 @@ handleEvent (VtyEvent (V.EvKey (V.KChar 't') [])) = do
     let x = (stateX state) + (stateWidth state) `div` 2
     let y = (stateY state) + (stateHeight state) `div` 2
     let state' = toggleCell (Cell {x=x, y=y}) state
+    put state'
+
+handleEvent (VtyEvent (V.EvKey (V.KChar '+') [])) = do
+    state <- get
+    let state' = increaseSpeed state
+    put state'
+
+handleEvent (VtyEvent (V.EvKey (V.KChar '-') [])) = do
+    state <- get
+    let state' = decreaseSpeed state
     put state'
 
 handleEvent _ = do
