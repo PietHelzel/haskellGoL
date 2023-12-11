@@ -1,8 +1,11 @@
+{-# LANGUAGE LambdaCase #-}
 -- | This module provides a basic implementation of the Game of Life algorithm.
 -- It implements the 'BoardClass' class to be usable in a generic manner.
 module Board (Board(Board)) where
 
-import Data.Set as DS (Set, fromList, member, unions, union, filter, map)
+import Data.Set as DS (Set, fromList, member, unions, union, filter, map, toList)
+import Data.List (intercalate)
+import Data.List.Split (splitOn)
 
 import Cell
 import BoardClass
@@ -49,8 +52,19 @@ getBoardCellsRect x y width height board = DS.filter (
 setBoardCells :: Board -> Set Cell -> Board
 setBoardCells _ cells = Board cells
 
+boardToString :: Board -> String
+boardToString (Board cells) = intercalate "\n" $ DS.toList $ DS.map (\c -> (show $ x c) ++ "," ++ (show $ y c)) cells
+
+boardFromString :: String -> Board
+boardFromString s = Board $ fromList $ Prelude.map (
+        \case {(x:y:_) -> Cell {x=read x, y=read y};
+        _ -> Cell {x=0, y=0}})
+    $ Prelude.map (splitOn ",") $ lines s
+
 instance BoardClass Board where
     update = updateBoard
     getCells = getBoardCells
     getCellsRect = getBoardCellsRect
     setCells = setBoardCells
+    toString = boardToString
+    fromString = boardFromString

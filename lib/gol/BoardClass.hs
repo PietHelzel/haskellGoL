@@ -23,6 +23,10 @@ class BoardClass a where
      -> Integer -- | The height of the region.
      -> a       -- | The board.
      -> Set Cell
+    -- | Converts a string representation into a board
+    fromString :: String -> a
+    -- | Converts the board to a string representation
+    toString :: a -> String
 
 -- | A RuleSet specifies the number of neighbours a cell needs to have in order
 -- to survive a generation (for a living cell) or to get born in the next one (for a dead cell).
