@@ -6,6 +6,7 @@ import BoardClass
 import Cell
 import Data.Set (delete, insert, member)
 
+-- | This data type holds all required information to represent the current state of the application.
 data (BoardClass board) => AppState board = AppState {
         stateBoard :: board,
         stateRuleset :: RuleSet,
