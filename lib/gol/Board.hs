@@ -50,11 +50,11 @@ getBoardCellsRect ::
     Integer
     -- | The y coordinate of the top left corner.
  -> Integer
- -- | The width of the region.
+    -- | The width of the region.
  -> Integer
- -- | The height of the region.
+    -- | The height of the region.
  -> Integer
- -- | The board.
+    -- | The board.
  -> Board
  -> Set Cell
 getBoardCellsRect x y width height board = DS.filter (
