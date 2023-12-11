@@ -10,6 +10,8 @@ import Control.Monad.State.Strict (MonadState(get, put))
 
 import Brick.Main (lookupExtent)
 
+import Cell
+
 import qualified Graphics.Vty as V
 
 data CustomEvent = Tick
@@ -51,6 +53,13 @@ handleEvent (VtyEvent (V.EvKey (V.KChar ' ') [])) = do
 handleEvent (VtyEvent (V.EvKey (V.KChar 'q') [])) = do
     state <- get
     return halt state
+
+handleEvent (VtyEvent (V.EvKey (V.KChar 't') [])) = do
+    state <- get
+    let x = (stateX state) + (stateWidth state) `div` 2
+    let y = (stateY state) + (stateHeight state) `div` 2
+    let state' = toggleCell (Cell {x=x, y=y}) state
+    put state'
 
 handleEvent _ = do
     extents <- lookupExtent GameViewport

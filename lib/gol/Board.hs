@@ -46,7 +46,11 @@ getBoardCellsRect x y width height board = DS.filter (
         \c -> Cell.x c >= x && Cell.y c >= y && Cell.x c < x + width && Cell.y c < y + height
     ) $ getBoardCells board
 
+setBoardCells :: Board -> Set Cell -> Board
+setBoardCells _ cells = Board cells
+
 instance BoardClass Board where
     update = updateBoard
     getCells = getBoardCells
     getCellsRect = getBoardCellsRect
+    setCells = setBoardCells

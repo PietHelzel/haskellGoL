@@ -12,6 +12,8 @@ class BoardClass a where
     update :: a -> RuleSet -> a
     -- | Gets a set of all living cells.
     getCells :: a -> Set Cell
+    -- | Returns a new board with the cells modified.
+    setCells :: a -> Set Cell -> a
     -- | Gets a set of living cells within a rectangle area.
     -- This makes rendering possible while only getting necessary cells.
     getCellsRect ::

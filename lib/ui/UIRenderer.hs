@@ -52,7 +52,8 @@ drawHelperWindow _ = border $ hLimitPercent 15 $ strWrap "\
 \Help:\n\
 \- Use the arrow keys to move around the viewport.\n\
 \- Press q to quit.\n\
-\- Press space to pause / unpause"
+\- Press space to pause / unpause\n\
+\- Press t to toggle a cell"
 
 
 cursorAttr :: AttrName

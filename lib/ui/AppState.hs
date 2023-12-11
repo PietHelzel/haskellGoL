@@ -1,6 +1,8 @@
 module AppState where
 
 import BoardClass
+import Cell
+import Data.Set (delete, insert, member)
 
 data (BoardClass board) => AppState board = AppState {
         stateBoard :: board,
@@ -55,3 +57,11 @@ movePosition :: (BoardClass board) =>
 
 movePosition dx dy state@(AppState {stateX=x, stateY=y}) =
     state {stateX=x + dx, stateY=y + dy}
+
+toggleCell :: (BoardClass board) => Cell -> AppState board -> AppState board
+toggleCell cell state@(AppState {stateBoard=board}) = do
+    let cells = getCells board
+    if cell `member` cells then
+        state {stateBoard=setCells board $ delete cell cells}
+    else
+        state {stateBoard=setCells board $ insert cell cells}
