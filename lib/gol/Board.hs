@@ -44,17 +44,27 @@ getNeighbours c = fromList [moveCell dx dy c | dx <- [-1..1], dy <- [-1..1], dx 
 getBoardCells :: Board -> Set Cell
 getBoardCells (Board cells) = cells
 
-getBoardCellsRect :: Integer -> Integer -> Integer -> Integer -> Board -> Set Cell
+-- | Returns all cells within a rectangle region.
+getBoardCellsRect ::
+    Integer -- | The x coordinate of the top left corner.
+ -> Integer -- | The y coordinate of the top left corner.
+ -> Integer -- | The width of the region.
+ -> Integer -- | The height of the region.
+ -> Board   -- | The board.
+ -> Set Cell
 getBoardCellsRect x y width height board = DS.filter (
         \c -> Cell.x c >= x && Cell.y c >= y && Cell.x c < x + width && Cell.y c < y + height
     ) $ getBoardCells board
 
+-- | Sets the cells of the board to a new set.
 setBoardCells :: Board -> Set Cell -> Board
 setBoardCells _ cells = Board cells
 
+-- | Converts the board to a string. Consult the README for more information.
 boardToString :: Board -> String
 boardToString (Board cells) = intercalate "\n" $ DS.toList $ DS.map (\c -> (show $ x c) ++ "," ++ (show $ y c)) cells
 
+-- | Converts a String to a board object. Consult the README for more information.
 boardFromString :: String -> Board
 boardFromString s = Board $ fromList $ Prelude.map (
         \case {(x:y:_) -> Cell {x=read x, y=read y};
