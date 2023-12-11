@@ -7,10 +7,12 @@ import Board (Board(Board))
 
 import Data.Set (fromList)
 
-import Cell
+--import Cell
 import BoardClass
 
 import Options.Applicative
+
+import Control.Exception (catch, IOException)
 
 data Config = Config
     { boardFilePath :: String
@@ -30,18 +32,24 @@ configParser = Config
         <> value ""
         <> help "The filepath to the rules file.")
 
+-- | Gets a board from file and parses it, if a board file is specified
+getBoard :: String -> IO (Board)
+getBoard "" = return $ Board $ fromList []
+getBoard path = do
+    contents <- catch (readFile path) handleIOException
+    return $ fromString contents
+
+-- | Handles exceptions reading the board or rule file
+handleIOException :: IOException -> IO String
+handleIOException e = error $ "An error occured while trying to read the board or rule file: " ++ show e
+
 
 main :: IO (AppState Board)
 main = do
     config <- execParser opts
-    runApp AppState {statePaused=False, stateBoard=
-                Board $ fromList [
-                    Cell {x = 0, y = 0},
-                    Cell {x = 0, y = 1},
-                    Cell {x = (-1), y = 1},
-                    Cell {x = 0, y = 2},
-                    Cell {x = 1, y = 2}
-                ],
+    board <- getBoard (boardFilePath config)
+    runApp AppState {statePaused=False, 
+            stateBoard=board,
             stateRuleset=getDefaultRules,
             stateX = -10,
             stateY = -10,
