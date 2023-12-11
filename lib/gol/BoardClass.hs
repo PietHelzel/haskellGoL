@@ -5,6 +5,8 @@ module BoardClass where
 import Cell
 import Data.Set
 
+import Data.List.Split (splitOn)
+
 -- | This class specifies a generic interface for a board.
 -- It allows the concrete board implementation to be replaced without other changes to the code.
 class BoardClass a where
@@ -40,3 +42,11 @@ data RuleSet = RuleSet {survive::[Int], birth::[Int]}
 -- | This function returns the default ruleset used for the Game of Life.
 getDefaultRules :: RuleSet
 getDefaultRules = RuleSet {survive = [2, 3], birth = [3]}
+
+-- | Converts a string into a RuleSet. For notation see README file.
+ruleSetFromString :: String -> RuleSet
+ruleSetFromString s = ruleSetFromStringHelper $ splitOn "/" s
+
+ruleSetFromStringHelper :: [String] -> RuleSet
+ruleSetFromStringHelper (survive':birth':_) = RuleSet {survive=read survive', birth=read birth'}
+ruleSetFromStringHelper _ = getDefaultRules
