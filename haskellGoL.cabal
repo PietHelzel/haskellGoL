@@ -98,7 +98,8 @@ library ui
         mtl ^>= 2.3.1,
         vty ^>= 6.1,
         vty-crossplatform ^>= 0.4.0,
-        containers ^>= 0.6.8
+        containers ^>= 0.6.8,
+        split ^>= 0.2.4
     hs-source-dirs: lib/ui,
     exposed-modules: UI, AppState,
     other-modules: UIController, UIRenderer, BoardRenderer,
