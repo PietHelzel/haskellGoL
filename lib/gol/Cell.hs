@@ -7,8 +7,10 @@ data Cell = Cell {x::Integer, y::Integer} deriving (Eq, Show, Ord)
 
 -- | Moves a cell by a given x and y offset.
 moveCell ::
-    Integer -> -- | The x offset.
-    Integer -> -- | The y offset.
+    -- | The x offset.
+    Integer ->
+    -- | The y offset.
+    Integer ->
     Cell ->
     Cell
 moveCell dx dy Cell{x = x, y = y} = Cell {x = x + dx, y = y + dy}

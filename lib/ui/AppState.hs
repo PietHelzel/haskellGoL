@@ -15,8 +15,10 @@ data (BoardClass board) => AppState board = AppState {
         stateY :: Integer,
         stateWidth :: Integer,
         stateHeight :: Integer,
-        stateTicksBetweenUpdates :: Integer, -- | The number of ticks that have to pass before the board is updated.
-        stateTicks :: Integer -- | The number of ticks that have passed in total.
+        -- | The number of ticks that have to pass before the board is updated.
+        stateTicksBetweenUpdates :: Integer,
+        -- | The number of ticks that have passed in total.
+        stateTicks :: Integer
     }
 
 -- | Toggles the paused flag.
@@ -30,24 +32,30 @@ updateBoard state@(AppState{stateBoard = board, stateRuleset = ruleset})
 
 -- | Updates the board size for rendering purposes. This can be used to react to changes in the UI layout, like resizing the window.
 updateSize :: (BoardClass board) =>
-    Integer -- | width
- -> Integer -- | height
+    -- | width
+    Integer
+    -- | height
+ -> Integer
  -> AppState board
  -> AppState board
 updateSize width height state = state {stateWidth=width, stateHeight=height}
 
 -- | Updates the scroll position of the board.
 updatePosition :: (BoardClass board) =>
-    Integer -- | x coordinate
- -> Integer -- | y coordinate
+    -- | x coordinate
+    Integer
+    -- | y coordinate
+ -> Integer
  -> AppState board
  -> AppState board
 updatePosition x y state = state {stateX=x, stateY=y}
 
 -- | Moves the scroll position of the board by dx and dy units on the respective axis.
 movePosition :: (BoardClass board) =>
-    Integer -- | delta x
- -> Integer -- | delta y
+    -- | delta x
+    Integer
+    -- | delta y
+ -> Integer
  -> AppState board
  -> AppState board
 movePosition dx dy state@(AppState {stateX=x, stateY=y}) = updatePosition (x+dx) (y+dy) state

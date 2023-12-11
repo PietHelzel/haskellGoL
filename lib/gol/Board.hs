@@ -46,11 +46,16 @@ getBoardCells (Board cells) = cells
 
 -- | Returns all cells within a rectangle region.
 getBoardCellsRect ::
-    Integer -- | The x coordinate of the top left corner.
- -> Integer -- | The y coordinate of the top left corner.
- -> Integer -- | The width of the region.
- -> Integer -- | The height of the region.
- -> Board   -- | The board.
+    -- | The x coordinate of the top left corner.
+    Integer
+    -- | The y coordinate of the top left corner.
+ -> Integer
+ -- | The width of the region.
+ -> Integer
+ -- | The height of the region.
+ -> Integer
+ -- | The board.
+ -> Board
  -> Set Cell
 getBoardCellsRect x y width height board = DS.filter (
         \c -> Cell.x c >= x && Cell.y c >= y && Cell.x c < x + width && Cell.y c < y + height

@@ -1,4 +1,5 @@
-module UIRenderer where
+-- | The renderer for the user interface.
+module UIRenderer (drawUI, getAttrMap) where
 
 import BoardClass
 
@@ -18,6 +19,7 @@ import UIController (ResourceName(..))
 
 import BoardRenderer (renderBoard)
 
+-- | Generate the user interface.
 drawUI :: BoardClass board => AppState board -> [Widget ResourceName]
 drawUI state =
     [
@@ -26,6 +28,7 @@ drawUI state =
         (hLimitPercent 15 $ (<=>) (drawHelperWindow state) (drawStatsWindow state))
     ]
 
+-- | Draws the main viewport with the board inside.
 drawGameViewport :: BoardClass board => AppState board -> Widget ResourceName
 drawGameViewport AppState {stateBoard=board, stateX=x, stateY=y, stateWidth=width, stateHeight=height} = do
     let rBoard = renderBoard x y width height board
@@ -44,6 +47,7 @@ drawGameViewport AppState {stateBoard=board, stateX=x, stateY=y, stateWidth=widt
             | (y', line) <- lines
         ]
 
+-- | Enumerate a list.
 enumerate :: [a] -> [(Integer, a)]
 enumerate xs = enumerateHelper 0 xs
 
@@ -51,6 +55,7 @@ enumerateHelper :: Integer -> [a] -> [(Integer, a)]
 enumerateHelper _ [] = []
 enumerateHelper n (x:xs) = (n, x) : enumerateHelper (n + 1) xs
 
+-- | Generates the help window with instructions of how to use the application.
 drawHelperWindow :: BoardClass board => AppState board -> Widget ResourceName
 drawHelperWindow _ = border $ strWrap "\
 \Help:\n\
@@ -60,6 +65,7 @@ drawHelperWindow _ = border $ strWrap "\
 \- Press t to toggle a cell\n\
 \- Press +/- to increase/decrease simulation speed"
 
+-- | Generates a statistics window containing useful information.
 drawStatsWindow :: BoardClass board => AppState board -> Widget ResourceName
 drawStatsWindow state = do
     let speed = 10 - stateTicksBetweenUpdates state
@@ -70,10 +76,11 @@ drawStatsWindow state = do
             "\n- Living cells: " ++ (show livingCells)
         )
 
-
+-- | Attributes that can be used to theme specific parts of the user interface.
 cursorAttr :: AttrName
 cursorAttr = attrName "cursorAttr"
 
+-- | Generates the attribute map. Currently only used to highlight the cursor in red.
 getAttrMap :: BoardClass board => AppState board -> AttrMap
 getAttrMap _ = attrMap V.defAttr [
         (cursorAttr, fg V.red)
