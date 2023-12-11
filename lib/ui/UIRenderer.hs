@@ -10,6 +10,7 @@ import Brick.Widgets.Border (border)
 import Brick.Widgets.Core (withBorderStyle, (<+>), (<=>), reportExtent, Padding(Max), padBottom, padRight, hLimitPercent, vBox, hBox, withAttr, clickable)
 import Data.List.Split (splitOn)
 import Brick.Util (fg)
+import qualified Data.Set as DS (size)
 
 import qualified Graphics.Vty as V
 
@@ -62,7 +63,12 @@ drawHelperWindow _ = border $ strWrap "\
 drawStatsWindow :: BoardClass board => AppState board -> Widget ResourceName
 drawStatsWindow state = do
     let speed = 10 - stateTicksBetweenUpdates state
-    border $ strWrap ("Information:\n- Speed: " ++ (show speed))
+    let livingCells = DS.size $ getCells $ stateBoard state
+    border $ strWrap (
+            "Information:" ++
+            "\n- Speed: " ++ (show speed) ++
+            "\n- Living cells: " ++ (show livingCells)
+        )
 
 
 cursorAttr :: AttrName
