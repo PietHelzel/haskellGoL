@@ -44,9 +44,10 @@ getBoard path = do
         Just board -> board
         Nothing -> error "The given board is malformed."
 
--- | retrieves the rules from a file
+-- | Retrieves the ruleset from the config and turns it into a ruleset, handling erroring on a malformed config etc.
 getRuleSetFromConfig :: Config -> IO (RuleSet)
-getRuleSetFromConfig config = getRules (ruleSetFromString $ rules config)
+getRuleSetFromConfig Config{rules=rules'} | rules' == "" = return getDefaultRules
+                                          | otherwise = getRules (ruleSetFromString $ rules')
 
 
 getRules :: Maybe RuleSet -> IO (RuleSet)
