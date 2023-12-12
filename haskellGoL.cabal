@@ -67,7 +67,9 @@ executable haskellGoL
     build-depends:
         base ^>=4.19.0.0,
         containers ^>= 0.6.8,
-        gol
+        optparse-applicative ^>= 0.18.1.0,
+        gol,
+        ui
 
     -- Directories containing source files.
     hs-source-dirs:   app
@@ -75,26 +77,55 @@ executable haskellGoL
     -- Base language which the package is written in.
     default-language: Haskell2010
 
+    -- Required for brick
+    ghc-options: -threaded
+
 library gol
     import: warnings
     build-depends:
         base ^>= 4.19.0.0,
-        containers ^>= 0.6.8
+        containers ^>= 0.6.8,
+        regex-tdfa ^>= 1.3.2,
+        split ^>= 0.2.4
     hs-source-dirs: lib/gol
     exposed-modules: BoardClass, Cell, Board
+    default-language: Haskell2010
+
+library ui
+    import: warnings
+    build-depends:
+        base ^>= 4.19.0.0,
+        gol,
+        brick ^>= 2.1.1,
+        mtl ^>= 2.3.1,
+        vty ^>= 6.1,
+        vty-crossplatform ^>= 0.4.0,
+        containers ^>= 0.6.8,
+        split ^>= 0.2.4
+    hs-source-dirs: lib/ui,
+    exposed-modules: UI, AppState,
+    other-modules: UIController, UIRenderer, BoardRenderer,
     default-language: Haskell2010
 
 test-suite tests
     type: exitcode-stdio-1.0
     main-is: TestBoard.hs
-    build-depends: base ^>=4.19.0.0, HUnit ^>=1.6, gol, containers ^>= 0.6.8
+    build-depends:
+        base ^>=4.19.0.0,
+        HUnit ^>=1.6,
+        gol,
+        containers ^>= 0.6.8
     hs-source-dirs: tests
     default-language: Haskell2010
 
 benchmark bench
     type: exitcode-stdio-1.0
     main-is: BenchBoard.hs
-    build-depends: base ^>= 4.19.0.0, tasty-bench ^>= 0.3.5, gol, containers ^>= 0.6.8
+    build-depends:
+        base ^>= 4.19.0.0,
+        tasty-bench ^>= 0.3.5,
+        gol,
+        containers ^>= 0.6.8
     hs-source-dirs: bench
     default-language: Haskell2010
     ghc-options: -O2

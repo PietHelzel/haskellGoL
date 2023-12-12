@@ -5,8 +5,9 @@ import qualified System.Exit as Exit
 
 import Cell
 import Board (Board(Board))
-import BoardClass (getDefaultRules, getCells, update)
+import BoardClass (getDefaultRules, getCells, update, toString, fromString)
 import Data.Set as DS (Set, fromList, map)
+import Data.Maybe (fromJust)
 
 test2By2Square :: Test
 test2By2Square = do
@@ -54,12 +55,25 @@ testGlider = do
 
     TestCase (assertEqual "Glider should have moved by 1 unit down-right" bCorrect b2)
 
+testFromToString :: Test
+testFromToString = do
+    let b = Board $ fromList [
+            Cell {x = 0, y = 0},
+            Cell {x = 1, y = 0},
+            Cell {x = 2, y = 0},
+            Cell {x = 2, y = 1},
+            Cell {x = 1, y = 2}
+            ]
+    let b2 = fromString $ toString b
+    TestCase (assertEqual "Board should be equal after conversion to/from string" b (fromJust b2))
+
 
 tests :: Test
 tests = TestList [
     TestLabel "2x2 constant Square" test2By2Square,
     TestLabel "Create cell" testCreateCell,
-    TestLabel "Glider" testGlider
+    TestLabel "Glider" testGlider,
+    TestLabel "Board from/to String" testFromToString
     ]
 
 main :: IO ()
