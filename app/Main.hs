@@ -39,7 +39,10 @@ getBoard :: String -> IO (Board)
 getBoard "" = return $ Board $ fromList []
 getBoard path = do
     contents <- catch (readFile path) handleIOException
-    return $ fromString contents
+    let board = fromString contents
+    return $ case board of
+        Just board -> board
+        Nothing -> error "The given board is malformed."
 
 -- | retrieves the rules from a file
 getRuleSetFromConfig :: Config -> IO (RuleSet)

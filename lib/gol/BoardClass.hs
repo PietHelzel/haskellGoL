@@ -33,7 +33,7 @@ class BoardClass a where
      -> a
      -> Set Cell
     -- | Converts a string representation into a board
-    fromString :: String -> a
+    fromString :: String -> Maybe a
     -- | Converts the board to a string representation
     toString :: a -> String
 

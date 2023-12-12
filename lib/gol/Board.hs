@@ -6,6 +6,7 @@ module Board (Board(Board)) where
 import Data.Set as DS (Set, fromList, member, unions, union, filter, map, toList)
 import Data.List (intercalate)
 import Data.List.Split (splitOn)
+import Text.Regex.TDFA
 
 import Cell
 import BoardClass
@@ -69,12 +70,23 @@ setBoardCells _ cells = Board cells
 boardToString :: Board -> String
 boardToString (Board cells) = intercalate "\n" $ DS.toList $ DS.map (\c -> (show $ x c) ++ "," ++ (show $ y c)) cells
 
+lineMatchesNotation :: String -> Bool
+lineMatchesNotation s = s =~ "^([0-9]+,[0-9]+)$"
+
 -- | Converts a String to a board object. Consult the README for more information.
+-- boardFromString :: String -> Maybe Board
+-- boardFromString s | boardMatchesNotation s = Just $ boardFromStringHelper s
+--                   | otherwise = Nothing
+
 boardFromString :: String -> Board
-boardFromString s = Board $ fromList $ Prelude.map (
-        \case {(x:y:_) -> Cell {x=read x, y=read y};
-        _ -> Cell {x=0, y=0}})
-    $ Prelude.map (splitOn ",") $ lines s
+boardFromString s = do
+    Board $ fromList $ Prelude.map (\l -> do
+            let segments = splitOn "," l
+            let x' = read $ segments !! 0
+            let y' = read $ segments !! 1
+            Cell {x=x', y=y'}
+        ) $ Prelude.filter lineMatchesNotation $ lines s
+
 
 instance BoardClass Board where
     update = updateBoard
@@ -82,4 +94,4 @@ instance BoardClass Board where
     getCellsRect = getBoardCellsRect
     setCells = setBoardCells
     toString = boardToString
-    fromString = boardFromString
+    fromString = Just . boardFromString

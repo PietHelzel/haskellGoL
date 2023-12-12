@@ -7,6 +7,7 @@ import Cell
 import Board (Board(Board))
 import BoardClass (getDefaultRules, getCells, update, toString, fromString)
 import Data.Set as DS (Set, fromList, map)
+import Data.Maybe (fromJust)
 
 test2By2Square :: Test
 test2By2Square = do
@@ -64,7 +65,7 @@ testFromToString = do
             Cell {x = 1, y = 2}
             ]
     let b2 = fromString $ toString b
-    TestCase (assertEqual "Board should be equal after conversion to/from string" b b2)
+    TestCase (assertEqual "Board should be equal after conversion to/from string" b (fromJust b2))
 
 
 tests :: Test
