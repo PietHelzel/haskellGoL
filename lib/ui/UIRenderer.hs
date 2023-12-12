@@ -44,7 +44,7 @@ drawGameViewport AppState {stateBoard=board, stateX=x, stateY=y, stateWidth=widt
                         str [c]
                     | (x', c) <- enumerate line
                     ]
-            | (y', line) <- lines
+            | (y', line) <- reverse lines
         ]
 
 -- | Enumerate a list.
