@@ -70,10 +70,12 @@ drawStatsWindow :: BoardClass board => AppState board -> Widget ResourceName
 drawStatsWindow state = do
     let speed = 10 - stateTicksBetweenUpdates state
     let livingCells = DS.size $ getCells $ stateBoard state
+    let generations = stateGenerations state
     border $ strWrap (
             "Information:" ++
             "\n- Speed: " ++ (show speed) ++
-            "\n- Living cells: " ++ (show livingCells)
+            "\n- Living cells: " ++ (show livingCells) ++
+            "\n- Generation: " ++ (show generations)
         )
 
 -- | Attributes that can be used to theme specific parts of the user interface.

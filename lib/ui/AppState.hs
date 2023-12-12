@@ -18,7 +18,8 @@ data (BoardClass board) => AppState board = AppState {
         -- | The number of ticks that have to pass before the board is updated.
         stateTicksBetweenUpdates :: Integer,
         -- | The number of ticks that have passed in total.
-        stateTicks :: Integer
+        stateTicks :: Integer,
+        stateGenerations :: Integer
     }
 
 -- | Toggles the paused flag.
@@ -28,7 +29,7 @@ togglePaused state@(AppState{statePaused = paused}) = state {statePaused = not p
 -- | Calls the update function on the board.
 updateBoard :: (BoardClass board) => AppState board -> AppState board
 updateBoard state@(AppState{stateBoard = board, stateRuleset = ruleset})
-    = state {stateBoard = update board ruleset}
+    = state {stateBoard = update board ruleset, stateGenerations = stateGenerations state + 1}
 
 -- | Updates the board size for rendering purposes. This can be used to react to changes in the UI layout, like resizing the window.
 updateSize :: (BoardClass board) =>

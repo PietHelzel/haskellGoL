@@ -74,7 +74,8 @@ main = do
             stateWidth = 100,
             stateHeight = 50,
             stateTicksBetweenUpdates = 5,
-            stateTicks = 0
+            stateTicks = 0,
+            stateGenerations = 0
             }
         where 
         opts = info (configParser <**> helper)
