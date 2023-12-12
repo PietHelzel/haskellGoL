@@ -81,7 +81,7 @@ increaseSpeed state@(AppState {stateTicksBetweenUpdates=ticksBetweenUpdates}) =
 -- | Decreases the simulation speed.
 decreaseSpeed :: (BoardClass board) => AppState board -> AppState board
 decreaseSpeed state@(AppState {stateTicksBetweenUpdates=ticksBetweenUpdates}) =
-    if ticksBetweenUpdates < 20 then
+    if ticksBetweenUpdates < 10 then
         state {stateTicksBetweenUpdates=ticksBetweenUpdates + 1}
     else
         state
