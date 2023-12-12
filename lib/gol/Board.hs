@@ -71,7 +71,7 @@ boardToString :: Board -> String
 boardToString (Board cells) = intercalate "\n" $ DS.toList $ DS.map (\c -> (show $ x c) ++ "," ++ (show $ y c)) cells
 
 lineMatchesNotation :: String -> Bool
-lineMatchesNotation s = s =~ "^([0-9]+,[0-9]+)$"
+lineMatchesNotation s = s =~ "^(-?[0-9]+,-?[0-9]+)$"
 
 -- | Converts a String to a board object. Consult the README for more information.
 -- boardFromString :: String -> Maybe Board
