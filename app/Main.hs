@@ -21,7 +21,7 @@ data Config = Config
 configParser :: Parser Config
 configParser = Config
     <$> option str 
-        (long "board-file"
+        (long "board"
         <> metavar "path-to-board-file"
         <> value ""
         <> help "The filepath to the board file.")
@@ -62,7 +62,6 @@ handleIOException e = error $ "An error occured while trying to read the board f
 main :: IO (AppState Board)
 main = do
     config <- execParser opts
-    --error $ show config
     board <- getBoardFromConfig config
     rules <- getRuleSetFromConfig config
     
