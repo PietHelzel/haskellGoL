@@ -71,11 +71,14 @@ drawStatsWindow state = do
     let speed = 10 - stateTicksBetweenUpdates state
     let livingCells = DS.size $ getCells $ stateBoard state
     let generations = stateGenerations state
+    let xPos = stateX state + (stateWidth state) `div` 2
+    let yPos = stateY state + (stateHeight state) `div` 2
     border $ strWrap (
             "Information:" ++
             "\n- Speed: " ++ (show speed) ++
             "\n- Living cells: " ++ (show livingCells) ++
-            "\n- Generation: " ++ (show generations)
+            "\n- Generation: " ++ (show generations) ++
+            "\n- Position: x=" ++ (show xPos) ++ ", y=" ++ (show yPos)
         )
 
 -- | Attributes that can be used to theme specific parts of the user interface.
