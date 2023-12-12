@@ -25,7 +25,7 @@ drawUI state =
     [
         withBorderStyle unicodeRounded $ (<+>)
         (drawGameViewport state)
-        (hLimitPercent 15 $ (<=>) (drawHelperWindow state) (drawStatsWindow state))
+        (hLimitPercent 20 $ (<=>) (drawHelperWindow state) (drawStatsWindow state))
     ]
 
 -- | Draws the main viewport with the board inside.
@@ -33,6 +33,10 @@ drawGameViewport :: BoardClass board => AppState board -> Widget ResourceName
 drawGameViewport AppState {stateBoard=board, stateX=x, stateY=y, stateWidth=width, stateHeight=height} = do
     let rBoard = renderBoard x y width height board
     let lines = enumerate $ splitOn "\n" rBoard
+    -- The rendering is done linewise, except for the line containing the cursor.
+    -- In that case, rendering for that line is done character-wise to allow
+    -- highlighting just the cursor specifically.
+    -- The performance of this is not great, but seems good enough for general use.
     reportExtent GameViewport $ clickable GameViewport $ border $ padRight Max $ padBottom Max $ vBox [
             if y' /= height `div` 2 then
                 str line
@@ -61,9 +65,10 @@ drawHelperWindow _ = border $ strWrap "\
 \Help:\n\
 \- Use the arrow keys to move around the viewport.\n\
 \- Press q to quit.\n\
-\- Press space to pause / unpause\n\
-\- Press t to toggle a cell\n\
-\- Press +/- to increase/decrease simulation speed"
+\- Press space to pause / unpause.\n\
+\- Press t to toggle a cell.\n\
+\- Press +/- to increase/decrease simulation speed.\n\
+\- Press n to manually step through the simulation."
 
 -- | Generates a statistics window containing useful information.
 drawStatsWindow :: BoardClass board => AppState board -> Widget ResourceName

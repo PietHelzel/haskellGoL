@@ -13,11 +13,11 @@ renderBoard :: (BoardClass board) =>
     Integer
     -- | The y coordinate
  -> Integer
- -- | The width
+    -- | The width
  -> Integer
- -- | The height
+    -- | The height
  -> Integer
- -- | The board to use
+    -- | The board to use
  -> board
  -> String
 

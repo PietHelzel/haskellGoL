@@ -39,7 +39,7 @@ handleEvent (AppEvent Tick) = do
     let ticksBetweenUpdates = stateTicksBetweenUpdates state
     -- The multiplication by a factor here allows for a larger range of simulation speeds
     -- within a specific range of speed values.
-    if ticks `mod` (ticksBetweenUpdates * 4) == 0 then do
+    if ticks `mod` (ticksBetweenUpdates * 8) == 0 then do
         let paused = statePaused state
         let state' = if paused then state else updateBoard state
         put $ increaseTicks state'
