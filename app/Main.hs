@@ -66,7 +66,7 @@ main = do
     board <- getBoardFromConfig config
     rules <- getRuleSetFromConfig config
     
-    runApp AppState {statePaused=False, 
+    runApp AppState {statePaused=True, 
             stateBoard=board,
             stateRuleset=rules,
             stateX = -10,
