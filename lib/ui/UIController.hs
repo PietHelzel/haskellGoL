@@ -20,6 +20,7 @@ import Graphics.Vty.Input.Events (Event(EvResize))
 data CustomEvent =
     -- | Used to update the simulation automatically with a specific refresh rate.
     Tick
+    -- | Used to resize and reposition the view at application startup.
   | ResizeEvent
 
 -- | Custom resources that can be used to identify interface elements.
@@ -98,10 +99,25 @@ handleEvent (VtyEvent (V.EvKey (V.KChar '-') [])) = do
     let state' = decreaseSpeed state
     put state'
 
--- | Handles window resize events.
-handleEvent (VtyEvent (EvResize _ _)) = handleEvent $ AppEvent ResizeEvent
-
+-- | Handles the initial resize and scoll positioning at startup.
 handleEvent (AppEvent ResizeEvent) = do
+    state <- get
+    extents <- lookupExtent GameViewport
+    case extents of
+        Nothing -> return ()
+        Just(Extent _ _ (width, height)) -> do
+            let state' = updatePosition
+                    (toInteger (-width) `div` 2)
+                    (toInteger (-height) `div` 2)
+                    state
+            let state'' = updateSize
+                    (toInteger width)
+                    (toInteger height)
+                    state'
+            put state''
+
+-- Handles window resize events
+handleEvent (VtyEvent (EvResize _ _)) = do
     extents <- lookupExtent GameViewport
     state <- get
     case extents of
