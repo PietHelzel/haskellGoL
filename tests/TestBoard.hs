@@ -71,7 +71,8 @@ tests :: Test
 tests = TestList [
     TestLabel "2x2 constant Square" test2By2Square,
     TestLabel "Create cell" testCreateCell,
-    TestLabel "Glider" testGlider
+    TestLabel "Glider" testGlider,
+    TestLabel "Board from/to String" testFromToString
     ]
 
 main :: IO ()

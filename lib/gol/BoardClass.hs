@@ -7,7 +7,7 @@ import Data.Set
 
 import Data.List.Split (splitOn)
 
-import Text.Read
+import Text.Regex.TDFA
 
 -- | This class specifies a generic interface for a board.
 -- It allows the concrete board implementation to be replaced without other changes to the code.
@@ -45,22 +45,18 @@ data RuleSet = RuleSet {survive::[Int], birth::[Int]}
 getDefaultRules :: RuleSet
 getDefaultRules = RuleSet {survive = [2, 3], birth = [3]}
 
--- matchesRuleSetNotation :: String -> Bool
--- matchesRuleSetNotation [] = True
--- matchesRuleSetNotation ('/':xs) = matchesRuleSetNotation xs
--- matchesRuleSetNotation (x:xs) = isDigit x && matchesRuleSetNotation xs
-
-isNumber :: String -> Bool
-isNumber text = ((readMaybe text) :: Maybe (Integer)) /= Nothing
-
 matchesRuleSetNotation :: String -> Bool
-matchesRuleSetNotation s = length split > 2 && (isNumber $ split !! 0) && (isNumber $ split !! 1)
-    where split = splitOn "/" s
+matchesRuleSetNotation s = s =~ "^[0-9]+/[0-9]+$"
 
 -- | Converts a string into a RuleSet. For notation see README file.
-ruleSetFromString :: String -> Maybe RuleSet 
-ruleSetFromString s = if matchesRuleSetNotation s then Just $ ruleSetFromStringHelper $ splitOn "/" s else Nothing
+ruleSetFromString :: String -> Maybe RuleSet
+ruleSetFromString s | matchesRuleSetNotation s = Just $ ruleSetFromStringHelper s
+                    | otherwise = Nothing
 
-ruleSetFromStringHelper :: [String] -> RuleSet
-ruleSetFromStringHelper (survive':birth':_) = RuleSet {survive=[read [n]| n <- survive'], birth=[read [n]| n <- birth']}
-ruleSetFromStringHelper _ = getDefaultRules
+ruleSetFromStringHelper :: String -> RuleSet
+ruleSetFromStringHelper s = do
+    let sections = splitOn "/" s
+    let survive = sections !! 0
+    let birth = sections !! 1
+    RuleSet {survive=(Prelude.map (\c -> read [c]) survive), birth=((Prelude.map) (\c -> read [c]) birth)}
+
