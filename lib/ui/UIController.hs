@@ -14,11 +14,13 @@ import Brick.Main (lookupExtent)
 import Cell
 
 import qualified Graphics.Vty as V
+import Graphics.Vty.Input.Events (Event(EvResize))
 
 -- | Custom events the application can use.
 data CustomEvent =
     -- | Used to update the simulation automatically with a specific refresh rate.
     Tick
+  | ResizeEvent
 
 -- | Custom resources that can be used to identify interface elements.
 data ResourceName =
@@ -96,8 +98,10 @@ handleEvent (VtyEvent (V.EvKey (V.KChar '-') [])) = do
     let state' = decreaseSpeed state
     put state'
 
--- | Handles all other events. Currently only used to process window resize events.
-handleEvent _ = do
+-- | Handles window resize events.
+handleEvent (VtyEvent (EvResize _ _)) = handleEvent $ AppEvent ResizeEvent
+
+handleEvent (AppEvent ResizeEvent) = do
     extents <- lookupExtent GameViewport
     state <- get
     case extents of
@@ -108,3 +112,6 @@ handleEvent _ = do
                     (toInteger height)
                     state
             put state'
+
+-- | Handles all other events.
+handleEvent _ = return ()
