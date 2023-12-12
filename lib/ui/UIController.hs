@@ -47,13 +47,13 @@ handleEvent (AppEvent Tick) = do
 -- | Scrolls the board upwards when the up arrow key is pressed.
 handleEvent (VtyEvent (V.EvKey V.KUp [])) = do
     state <- get
-    let state' = movePosition 0 (-1) state
+    let state' = movePosition 0 1 state
     put state'
 
 -- | Scrolls the board downwards when the down arrow key is pressed.
 handleEvent (VtyEvent (V.EvKey V.KDown [])) = do
     state <- get
-    let state' = movePosition 0 1 state
+    let state' = movePosition 0 (-1) state
     put state'
 
 -- | Scrolls the board to the left when the left arrow key is pressed.
