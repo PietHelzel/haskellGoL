@@ -37,12 +37,19 @@ handleEvent (AppEvent Tick) = do
     state <- get
     let ticks = stateTicks state
     let ticksBetweenUpdates = stateTicksBetweenUpdates state
-    if ticks `mod` ticksBetweenUpdates == 0 then do
+    -- The multiplication by a factor here allows for a larger range of simulation speeds
+    -- within a specific range of speed values.
+    if ticks `mod` (ticksBetweenUpdates * 4) == 0 then do
         let paused = statePaused state
         let state' = if paused then state else updateBoard state
         put $ increaseTicks state'
     else
         put $ increaseTicks state
+
+handleEvent (VtyEvent (V.EvKey (V.KChar 'n') [])) = do
+    state <- get
+    let state' = updateBoard state
+    put state'
 
 -- | Scrolls the board upwards when the up arrow key is pressed.
 handleEvent (VtyEvent (V.EvKey V.KUp [])) = do

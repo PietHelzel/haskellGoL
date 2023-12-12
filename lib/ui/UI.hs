@@ -49,7 +49,7 @@ runApp initialState = do
 createTickChannel :: IO (BChan CustomEvent)
 createTickChannel = do
     chan <- newBChan 10
-    let delay = 50000
+    let delay = 5000
     writeBChan chan ResizeEvent
     void . forkIO $ forever $ do
         writeBChan chan Tick
