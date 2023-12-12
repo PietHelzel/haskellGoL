@@ -41,9 +41,10 @@ getBoard path = do
     contents <- catch (readFile path) handleIOException
     return $ fromString contents
 
--- | retrieves the rules from a file
+-- | Retrieves the ruleset from the config and turns it into a ruleset, handling erroring on a malformed config etc.
 getRuleSetFromConfig :: Config -> IO (RuleSet)
-getRuleSetFromConfig config = getRules (ruleSetFromString $ rules config)
+getRuleSetFromConfig Config{rules=rules'} | rules' == "" = return getDefaultRules
+                                          | otherwise = getRules (ruleSetFromString $ rules')
 
 
 getRules :: Maybe RuleSet -> IO (RuleSet)
