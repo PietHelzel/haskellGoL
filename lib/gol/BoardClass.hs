@@ -53,6 +53,13 @@ ruleSetFromString :: String -> Maybe RuleSet
 ruleSetFromString s | matchesRuleSetNotation s = Just $ ruleSetFromStringHelper s
                     | otherwise = Nothing
 
+-- | Converts a RuleSet into a String in standard notation ("<survive>/<birth>").
+ruleSetToString :: RuleSet -> String
+ruleSetToString (RuleSet {survive=survive, birth=birth}) = do
+    let surviveStr = concat $ Prelude.map (show) survive
+    let birthStr = concat $ Prelude.map (show) birth
+    surviveStr ++ "/" ++ birthStr
+
 ruleSetFromStringHelper :: String -> RuleSet
 ruleSetFromStringHelper s = do
     let sections = splitOn "/" s

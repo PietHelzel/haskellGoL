@@ -78,12 +78,14 @@ drawStatsWindow state = do
     let generations = stateGenerations state
     let xPos = stateX state + (stateWidth state) `div` 2
     let yPos = stateY state + (stateHeight state) `div` 2
+    let rulesetStr = ruleSetToString $ stateRuleset state
     border $ strWrap (
             "Information:" ++
             "\n- Speed: " ++ (show speed) ++
             "\n- Living cells: " ++ (show livingCells) ++
             "\n- Generation: " ++ (show generations) ++
-            "\n- Position: x=" ++ (show xPos) ++ ", y=" ++ (show yPos)
+            "\n- Position: x=" ++ (show xPos) ++ ", y=" ++ (show yPos) ++
+            "\n- Ruleset: " ++ rulesetStr
         )
 
 -- | Attributes that can be used to theme specific parts of the user interface.
